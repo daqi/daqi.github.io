@@ -12,7 +12,7 @@ const outputFile = util.promisify(fs.outputFile);
 const pagesPath = path.join(__dirname, "../pages");
 const outputPath = path.join(__dirname, "../dist");
 const title = "Daqi's blog";
-const domain = "daqi.io"
+const domain = "daqi.io";
 
 const cache = {};
 
@@ -67,7 +67,7 @@ async function renderMdToHtml() {
   files.forEach(async file => {
     if (/\.md$/.test(file)) {
       const output = path.join(outputPath, file.replace(/\.md$/, ".html"));
-      console.log("render", file, 'to', output);
+      console.log("render", file, "to", output);
       const html = await md2Html(file);
       const resPromise = render(html, output);
       PromiseArr.push(resPromise);
@@ -77,7 +77,7 @@ async function renderMdToHtml() {
 }
 
 async function setDomain() {
-  await outputFile(path.join(outputPath, 'CNAME'), domain);
+  await outputFile(path.join(outputPath, "CNAME"), domain);
 }
 
 async function build() {
