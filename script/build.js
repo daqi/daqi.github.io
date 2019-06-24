@@ -12,6 +12,7 @@ const outputFile = util.promisify(fs.outputFile);
 const pagesPath = path.join(__dirname, "../pages");
 const outputPath = path.join(__dirname, "../dist");
 const title = "Daqi's blog";
+const domain = "daqi.io"
 
 const cache = {};
 
@@ -75,12 +76,18 @@ async function renderMdToHtml() {
   await Promise.all(PromiseArr);
 }
 
+async function setDomain() {
+  await outputFile(path.join(outputPath, 'CNAME'), domain);
+}
+
 async function build() {
   console.log("ensureDir", outputPath);
   await ensureDir(outputPath);
   console.log("emptyDir", outputPath);
   await emptyDir(outputPath);
   await renderMdToHtml();
+  console.log("setDomain", domain);
+  await setDomain();
 }
 
 build();
