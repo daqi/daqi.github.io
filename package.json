@@ -5,7 +5,7 @@
   "main": "",
   "scripts": {
     "build": "node script/build.js",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -b master -d dist"
   },
   "repository": {
     "type": "git",
