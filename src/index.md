@@ -9,3 +9,8 @@
 https://daqi.io/daily
 
 {{{inject[/daily]}}}
+
+## 算法练习
+https://daqi.io/algorithm
+
+{{{inject[/algorithm]}}}
