@@ -11,9 +11,10 @@ const outputFile = util.promisify(fs.outputFile);
 
 marked.setOptions({
   breaks: true,
-  highlight(code) {
-    const hljs = require("highlight.js");
-    return hljs.highlightAuto(code).value;
+  highlight(code, language) {
+    const hljs = require('highlight.js');
+    const validLanguage = hljs.getLanguage(language) ? language : 'plaintext';
+    return hljs.highlight(validLanguage, code).value;
   },
 });
 
