@@ -21,21 +21,21 @@
 <p>在一个长度为 n 的数组 nums 里的所有数字都在 0 ～ n-1 的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。</p>
 <p>示例 1：</p>
 <pre><code>输入：
-[<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">5</span>, <span class="hljs-number">3</span>]
-输出：<span class="hljs-number">2</span> 或 <span class="hljs-number">3</span></code></pre><p>限制：</p>
+[2, 3, 1, 0, 2, 5, 3]
+输出：2 或 3</code></pre><p>限制：</p>
 <p>2 &lt;= n &lt;= 100000</p>
 <h2 id="思路">思路</h2>
 <p>如果要求时间复杂度最优，可以使用 javascript 的 object 对象作为 hashMap，创建一个 map，循环数组，把元素存储到 map 里，如果已经存在，则返回该元素。</p>
 <p>时间复杂度 O(1),空间复杂度 O(n)。</p>
 <h2 id="解题">解题</h2>
-<pre><code class="language-javascript"><span class="hljs-comment">/**
- * <span class="hljs-doctag">@param</span> {number[]} nums
- * <span class="hljs-doctag">@return</span> {number}
+<pre><code class="language-js"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@param <span class="hljs-type">{number[]}</span> <span class="hljs-variable">nums</span></span>
+ * <span class="hljs-doctag">@return <span class="hljs-type">{number}</span></span>
  */</span>
-<span class="hljs-keyword">var</span> findRepeatNumber = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(nums)</span> </span>{
+<span class="hljs-keyword">var</span> findRepeatNumber = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">nums</span>) </span>{
   <span class="hljs-keyword">const</span> map = {};
   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; nums.length; i++) {
-    <span class="hljs-keyword">if</span> (nums[i] in map) <span class="hljs-keyword">return</span> nums[i];
+    <span class="hljs-keyword">if</span> (nums[i] <span class="hljs-keyword">in</span> map) <span class="hljs-keyword">return</span> nums[i];
     map[nums[i]] = <span class="hljs-number">1</span>;
   }
 };</code></pre>
@@ -43,33 +43,33 @@
 <p>如果要求空间复杂度最优，使用二分法降低时间复杂度，题目前提是“在一个长度为 n 的数组 nums 里的所有数字都在 0 ～ n-1 的范围内”，可以求出中间值，判断小于等于中间值的元素数量是否大于中间值，如果大于，重复的数字就在小于等于中间值的这边，反之在另一边，再利用二分法进行查找。</p>
 <p>时间复杂度 O(nlogn)，空间复杂度 O(1)。</p>
 <h2 id="解题-2">解题 2</h2>
-<pre><code class="language-javascript">/**
- * @param <span class="hljs-built_in">{number</span>[]} nums
- * @<span class="hljs-keyword">return</span> <span class="hljs-built_in">{number</span>}
- */
-var findRepeatNumber = <span class="hljs-keyword">function</span> (nums) {
-  const len = nums.length;
-  <span class="hljs-keyword">let</span> <span class="hljs-keyword">start</span> = <span class="hljs-number">0</span>;
-  <span class="hljs-keyword">let</span> <span class="hljs-keyword">end</span> = len - <span class="hljs-number">1</span>;
+<pre><code class="language-js"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@param <span class="hljs-type">{number[]}</span> <span class="hljs-variable">nums</span></span>
+ * <span class="hljs-doctag">@return <span class="hljs-type">{number}</span></span>
+ */</span>
+<span class="hljs-keyword">var</span> findRepeatNumber = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">nums</span>) </span>{
+  <span class="hljs-keyword">const</span> len = nums.length;
+  <span class="hljs-keyword">let</span> start = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">let</span> end = len - <span class="hljs-number">1</span>;
 
-  while (<span class="hljs-keyword">start</span> &lt; <span class="hljs-keyword">end</span>) {
-    const mid = <span class="hljs-keyword">start</span> + ((<span class="hljs-keyword">end</span> - <span class="hljs-keyword">start</span>) &gt;&gt; <span class="hljs-number">1</span>);
+  <span class="hljs-keyword">while</span> (start &lt; end) {
+    <span class="hljs-keyword">const</span> mid = start + ((end - start) &gt;&gt; <span class="hljs-number">1</span>);
     <span class="hljs-keyword">let</span> counter = <span class="hljs-number">0</span>;
-    <span class="hljs-keyword">for</span> (const num <span class="hljs-keyword">of</span> nums) {
-      <span class="hljs-keyword">if</span> (num &gt;= <span class="hljs-keyword">start</span> &amp;&amp; num &lt;= mid) {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> num <span class="hljs-keyword">of</span> nums) {
+      <span class="hljs-keyword">if</span> (num &gt;= start &amp;&amp; num &lt;= mid) {
         counter++;
       }
     }
     <span class="hljs-keyword">if</span> (counter &gt; mid) {
-      <span class="hljs-keyword">end</span> = mid;
+      end = mid;
     } <span class="hljs-keyword">else</span> {
-      <span class="hljs-keyword">start</span> = mid + <span class="hljs-number">1</span>;
+      start = mid + <span class="hljs-number">1</span>;
     }
   }
-  <span class="hljs-keyword">return</span> <span class="hljs-keyword">start</span>;
+  <span class="hljs-keyword">return</span> start;
 };
 
-// &gt;&gt;<span class="hljs-number">1</span> 位运算右移一位，等同于除<span class="hljs-number">2</span>并向下取整</code></pre>
+<span class="hljs-comment">// &gt;&gt;1 位运算右移一位，等同于除2并向下取整</span></code></pre>
 <blockquote>
 <p><strong>从零开始学算法</strong><br><a href="https://github.com/daqi/re0-algorithm/issues">https://github.com/daqi/re0-algorithm/issues</a><br>欢迎 start &amp; watch</p>
 </blockquote>
