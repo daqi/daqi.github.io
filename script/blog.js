@@ -101,7 +101,7 @@ class Blog {
     const { output } = this.props;
     if (this.cache.style) return this.cache.style;
     const mdCss = require.resolve("github-markdown-css/github-markdown.css");
-    const hlCss = require.resolve("highlight.js/styles/github.css");
+    const hlCss = require.resolve("highlight.js/styles/github-gist.css");
     await fs.copy(mdCss, path.join(output, "css/md.css"));
     await fs.copy(hlCss, path.join(output, "css/hl.css"));
     this.cache.style = `<Link rel="stylesheet" href="/css/md.css" />
