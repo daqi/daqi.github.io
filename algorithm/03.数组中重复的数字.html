@@ -28,7 +28,7 @@
 <p>如果要求时间复杂度最优，可以使用 javascript 的 object 对象作为 hashMap，创建一个 map，循环数组，把元素存储到 map 里，如果已经存在，则返回该元素。</p>
 <p>时间复杂度 O(1),空间复杂度 O(n)。</p>
 <h2 id="解题">解题</h2>
-<pre><code class="language-js"><span class="hljs-comment">/**
+<pre><code class="language-javascript"><span class="hljs-comment">/**
  * <span class="hljs-doctag">@param</span> {number[]} nums
  * <span class="hljs-doctag">@return</span> {number}
  */</span>
@@ -43,7 +43,7 @@
 <p>如果要求空间复杂度最优，使用二分法降低时间复杂度，题目前提是“在一个长度为 n 的数组 nums 里的所有数字都在 0 ～ n-1 的范围内”，可以求出中间值，判断小于等于中间值的元素数量是否大于中间值，如果大于，重复的数字就在小于等于中间值的这边，反之在另一边，再利用二分法进行查找。</p>
 <p>时间复杂度 O(nlogn)，空间复杂度 O(1)。</p>
 <h2 id="解题-2">解题 2</h2>
-<pre><code class="language-js">/**
+<pre><code class="language-javascript">/**
  * @param <span class="hljs-built_in">{number</span>[]} nums
  * @<span class="hljs-keyword">return</span> <span class="hljs-built_in">{number</span>}
  */
