@@ -3,7 +3,6 @@ const util = require("util");
 const marked = require("marked");
 const fs = require("fs-extra");
 const _ = require("lodash");
-
 const readdir = util.promisify(fs.readdir);
 const readFile = util.promisify(fs.readFile);
 const emptyDir = util.promisify(fs.emptyDir);
@@ -12,7 +11,11 @@ const outputFile = util.promisify(fs.outputFile);
 
 marked.setOptions({
   breaks: true,
-})
+  highlight(code) {
+    const hljs = require("highlight.js");
+    return hljs.highlightAuto(code).value;
+  },
+});
 
 /**
  * title domain router output
@@ -38,10 +41,10 @@ class Blog {
   }
   async renderMdToHtml() {
     const { output, router, title } = this.props;
-    const pArrs = router.map(async route => {
+    const pArrs = router.map(async (route) => {
       const { path: pathname = "/", mdDir } = route;
       const files = await readdir(mdDir);
-      const pArr = files.map(async file => {
+      const pArr = files.map(async (file) => {
         if (!/\.md$/.test(file)) return false;
         const outputFileName = file.replace(/\.md$/, ".html");
         const absPath = path.join(pathname, outputFileName);
@@ -57,7 +60,7 @@ class Blog {
         await this.mdRender(pageTitle, contentHTML, outputFile);
         return {
           url: absPath,
-          title: curTitle
+          title: curTitle,
         };
       });
       this.inject[pathname] = await Promise.all(pArr);
@@ -75,16 +78,16 @@ class Blog {
     return htmlContent;
   }
   async injectHtml() {
-    const pArrs = this.outputs.map(async output => {
+    const pArrs = this.outputs.map(async (output) => {
       const htmlContent = await readFile(output, "utf8");
       if (htmlContent.indexOf("{{{") < 0) return false;
       const res = htmlContent.replace(/{{{(.*?)}}}/g, (match, p1) => {
-        const path = p1.split(/[\.\[\]]/).filter(el => el);
+        const path = p1.split(/[\.\[\]]/).filter((el) => el);
         const context = { inject: this.inject };
         const data = _.get(context, path);
         if (Array.isArray(data)) {
           return `<ul>${data.map(
-            el => `<li><a href="${el.url}">${el.title}</a></li>`
+            (el) => `<li><a href="${el.url}">${el.title}</a></li>`
           )}</ul>`;
         }
         return _.get(context, path);
@@ -96,9 +99,12 @@ class Blog {
   async style() {
     const { output } = this.props;
     if (this.cache.style) return this.cache.style;
-    const css = require.resolve("github-markdown-css/github-markdown.css");
-    await fs.copy(css, path.join(output, "css/md.css"));
-    this.cache.style = '<Link rel="stylesheet" href="/css/md.css" />';
+    const mdCss = require.resolve("github-markdown-css/github-markdown.css");
+    const hlCss = require.resolve("highlight.js/styles/github.css");
+    await fs.copy(mdCss, path.join(output, "css/md.css"));
+    await fs.copy(hlCss, path.join(output, "css/hl.css"));
+    this.cache.style = `<Link rel="stylesheet" href="/css/md.css" />
+<Link rel="stylesheet" href="/css/hl.css" />`;
     return this.cache.style;
   }
   async mdRender(title, html, file) {
