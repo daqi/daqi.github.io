@@ -12,8 +12,8 @@ const outputFile = util.promisify(fs.outputFile);
 marked.setOptions({
   breaks: true,
   highlight(code, language) {
-    const hljs = require('highlight.js');
-    const validLanguage = hljs.getLanguage(language) ? language : 'plaintext';
+    const hljs = require("highlight.js");
+    const validLanguage = hljs.getLanguage(language) ? language : "plaintext";
     return hljs.highlight(validLanguage, code).value;
   },
 });
@@ -87,8 +87,9 @@ class Blog {
         const context = { inject: this.inject };
         const data = _.get(context, path);
         if (Array.isArray(data)) {
-          return `<ul>${data.map(
-            (el) => `<li><a href="${el.url}">${el.title}</a></li>`
+          return `<ul>${data.reduce(
+            (p, el) => `${p}<li><a href="${el.url}">${el.title}</a></li>`,
+            ""
           )}</ul>`;
         }
         return _.get(context, path);
