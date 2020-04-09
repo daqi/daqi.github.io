@@ -87,7 +87,7 @@ class Blog {
         const context = { inject: this.inject };
         const data = _.get(context, path);
         if (Array.isArray(data)) {
-          return `<ul>${data.reduce(
+          return `<ul>${data.reverse().reduce(
             (p, el) => `${p}<li><a href="${el.url}">${el.title}</a></li>`,
             ""
           )}</ul>`;
