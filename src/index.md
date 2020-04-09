@@ -13,3 +13,7 @@ https://daqi.io/daily
 ## 从零开始学算法
 
 https://daqi.io/algorithm
+
+## 简陋的博客系统
+
+https://github.com/daqi/daqi.github.io
