@@ -40,17 +40,17 @@
  * <span class="hljs-doctag">@param <span class="hljs-type">{number}</span> <span class="hljs-variable">target</span></span>
  * <span class="hljs-doctag">@return <span class="hljs-type">{boolean}</span></span>
  */</span>
-<span class="hljs-keyword">var</span> findNumberIn2DArray = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">matrix, target</span>) </span>{
+<span class="hljs-keyword">const</span> findNumberIn2DArray = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">matrix, target</span>) </span>{
   <span class="hljs-keyword">if</span> (matrix.length === <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
-  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> y <span class="hljs-keyword">of</span> matrix) {
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> x <span class="hljs-keyword">of</span> y) {
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> y <span class="hljs-keyword">of</span> matrix) {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> x <span class="hljs-keyword">of</span> y) {
       <span class="hljs-keyword">if</span> (x === target) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
     }
   }
   <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
 };</code></pre>
 <h2 id="思路-2">思路 2</h2>
-<p>题目的前提是“二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序”，可以考虑从左下到右上进行查找，从下往上遍历，如果行的第一个元素小于等于 target，就开始从左往右遍历，最终可以找到。也可以从右上到左下进行查找，逻辑上也是可以的，下面使用从右上到左下的方法求解。</p>
+<p>题目的前提是“二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序”，可以考虑从左下到右上进行查找，先从下往上遍历，如果行的第一个元素小于等于 target，再从左往右遍历，最终可以找到。也可以从右上到左下进行查找，逻辑上也是可以的，下面使用从右上到左下的方法求解。</p>
 <p>时间复杂度 O(nlogm)。</p>
 <h2 id="解题-2">解题 2</h2>
 <pre><code class="language-js"><span class="hljs-comment">/**
@@ -58,7 +58,7 @@
  * <span class="hljs-doctag">@param <span class="hljs-type">{number}</span> <span class="hljs-variable">target</span></span>
  * <span class="hljs-doctag">@return <span class="hljs-type">{boolean}</span></span>
  */</span>
-<span class="hljs-keyword">var</span> findNumberIn2DArray = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">matrix, target</span>) </span>{
+<span class="hljs-keyword">const</span> findNumberIn2DArray = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">matrix, target</span>) </span>{
   <span class="hljs-keyword">if</span> (matrix.length === <span class="hljs-number">0</span>) {
     <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
   }

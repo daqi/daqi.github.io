@@ -25,29 +25,29 @@
 输出：2 或 3</code></pre><h3 id="限制：">限制：</h3>
 <p>2 &lt;= n &lt;= 100000</p>
 <h2 id="思路">思路</h2>
-<p>如果要求时间复杂度最优，可以使用 javascript 的 object 对象作为 hashMap，创建一个 map，循环数组，把元素存储到 map 里，如果已经存在，则返回该元素。</p>
+<p>如果时间复杂度优先，可以使用 javascript 的 object 对象作为 hashMap，创建一个 map，循环数组，把元素存储到 map 里，如果已经存在，则返回该元素。</p>
 <p>时间复杂度 O(1),空间复杂度 O(n)。</p>
 <h2 id="解题">解题</h2>
 <pre><code class="language-js"><span class="hljs-comment">/**
  * <span class="hljs-doctag">@param <span class="hljs-type">{number[]}</span> <span class="hljs-variable">nums</span></span>
  * <span class="hljs-doctag">@return <span class="hljs-type">{number}</span></span>
  */</span>
-<span class="hljs-keyword">var</span> findRepeatNumber = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">nums</span>) </span>{
+<span class="hljs-keyword">const</span> findRepeatNumber = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">nums</span>) </span>{
   <span class="hljs-keyword">const</span> map = {};
-  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; nums.length; i++) {
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> i = <span class="hljs-number">0</span>; i &lt; nums.length; i++) {
     <span class="hljs-keyword">if</span> (nums[i] <span class="hljs-keyword">in</span> map) <span class="hljs-keyword">return</span> nums[i];
     map[nums[i]] = <span class="hljs-number">1</span>;
   }
 };</code></pre>
 <h2 id="思路-2">思路 2</h2>
-<p>如果要求空间复杂度最优，使用二分法降低时间复杂度，题目前提是“在一个长度为 n 的数组 nums 里的所有数字都在 0 ～ n-1 的范围内”，可以求出中间值，判断小于等于中间值的元素数量是否大于中间值，如果大于，重复的数字就在小于等于中间值的这边，反之在另一边，再利用二分法进行查找。</p>
+<p>如果空间复杂度优先，使用二分法降低时间复杂度，题目前提是“在一个长度为 n 的数组 nums 里的所有数字都在 0 ～ n-1 的范围内”，可以求出中间值，判断小于等于中间值的元素数量是否大于中间值，如果大于，重复的数字就在小于等于中间值的这边，反之在另一边，再利用二分法进行查找。</p>
 <p>时间复杂度 O(nlogn)，空间复杂度 O(1)。</p>
 <h2 id="解题-2">解题 2</h2>
 <pre><code class="language-js"><span class="hljs-comment">/**
  * <span class="hljs-doctag">@param <span class="hljs-type">{number[]}</span> <span class="hljs-variable">nums</span></span>
  * <span class="hljs-doctag">@return <span class="hljs-type">{number}</span></span>
  */</span>
-<span class="hljs-keyword">var</span> findRepeatNumber = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">nums</span>) </span>{
+<span class="hljs-keyword">const</span> findRepeatNumber = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">nums</span>) </span>{
   <span class="hljs-keyword">const</span> len = nums.length;
   <span class="hljs-keyword">let</span> start = <span class="hljs-number">0</span>;
   <span class="hljs-keyword">let</span> end = len - <span class="hljs-number">1</span>;

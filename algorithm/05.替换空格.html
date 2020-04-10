@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>05. 替换空格 | Daqi's blog</title>
+<Link rel="stylesheet" href="/css/md.css" />
+<Link rel="stylesheet" href="/css/hl.css" />
+<style>
+#root { padding: 20px; } 
+</style>
+</head>
+<body>
+<div id="root">
+  <div class="markdown-body">
+  <h1 id="05-替换空格">05. 替换空格</h1>
+<h2 id="来源">来源</h2>
+<p><a href="https://leetcode-cn.com/problems/ti-huan-kong-ge-lcof/">https://leetcode-cn.com/problems/ti-huan-kong-ge-lcof/</a></p>
+<h2 id="题目">题目</h2>
+<p>请实现一个函数，把字符串 s 中的每个空格替换成&quot;%20&quot;。</p>
+<h3 id="示例">示例:</h3>
+<pre><code>输入：s = &quot;We are happy.&quot;
+输出：&quot;We%20are%20happy.&quot;</code></pre><h3 id="限制：">限制：</h3>
+<p>0 &lt;= s 的长度 &lt;= 10000</p>
+<h2 id="思路">思路</h2>
+<p>时间复杂度优先的话，js 的字符串有 replace 的方法，可以轻易完成此题目的要求，这里就不讨论了。如果创建一个新的字符串，采用循环+判断的方式，可以写出如下解法。</p>
+<p>时间复杂度 O(n), 空间复杂度 O(n)。</p>
+<h2 id="解题">解题</h2>
+<pre><code class="language-js"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@param <span class="hljs-type">{string}</span> <span class="hljs-variable">s</span></span>
+ * <span class="hljs-doctag">@return <span class="hljs-type">{string}</span></span>
+ */</span>
+<span class="hljs-keyword">const</span> replaceSpace = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">s</span>) </span>{
+  <span class="hljs-keyword">let</span> res = <span class="hljs-string">""</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> el <span class="hljs-keyword">of</span> s) {
+    <span class="hljs-keyword">if</span> (el === <span class="hljs-string">" "</span>) {
+      res += <span class="hljs-string">"%20"</span>;
+    } <span class="hljs-keyword">else</span> {
+      res += el;
+    }
+  }
+  <span class="hljs-keyword">return</span> res;
+};</code></pre>
+<h2 id="思路-2">思路 2</h2>
+<p>如果空间复杂度优先的话，由于 js 的字符串是不可修改的，无法表达此题的意图。改下题目，改成数组，即</p>
+<pre><code>输入: s = &quot;We are happy.&quot;.split(&quot;&quot;)
+输出: &quot;We%20are%20happy.&quot;.split(&quot;&quot;)
+且禁止使用splice方法</code></pre><p>如果从前往后循环，对于 O(n)个空格，每个需要移动 O(n)个元素，时间复杂度达到了 O(n^2)。</p>
+<p>如果改成从后往前循环，需要创建两个指针，一个从原来的结尾开始，一个从结果的结尾开始，遍历原数组，填入新数组。</p>
+<p>时间复杂度 O(n), 空间复杂度 O(1)。</p>
+<blockquote>
+<p>在一些问题中，如果从前往后复杂度很高时，可以试试从后往前。</p>
+</blockquote>
+<h2 id="解题-2">解题 2</h2>
+<pre><code class="language-js"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@param <span class="hljs-type">{string}</span> <span class="hljs-variable">s</span></span>
+ * <span class="hljs-doctag">@return <span class="hljs-type">{string}</span></span>
+ */</span>
+<span class="hljs-keyword">const</span> replaceSpace = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">s</span>) </span>{
+  <span class="hljs-keyword">let</span> count = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> e <span class="hljs-keyword">of</span> s) {
+    <span class="hljs-keyword">if</span> (e === <span class="hljs-string">" "</span>) {
+      count++;
+    }
+  }
+  <span class="hljs-keyword">const</span> olength = s.length;
+  <span class="hljs-keyword">const</span> nlength = s.length + count * <span class="hljs-number">2</span>;
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = olength - <span class="hljs-number">1</span>, j = nlength - <span class="hljs-number">1</span>; i &gt;= <span class="hljs-number">0</span>; i--) {
+    <span class="hljs-keyword">if</span> (s[i] === <span class="hljs-string">" "</span>) {
+      s[j--] = <span class="hljs-string">"0"</span>;
+      s[j--] = <span class="hljs-string">"2"</span>;
+      s[j--] = <span class="hljs-string">"%"</span>;
+    } <span class="hljs-keyword">else</span> {
+      s[j] = s[i];
+      j--;
+    }
+  }
+  <span class="hljs-keyword">return</span> s;
+};</code></pre>
+<blockquote>
+<p><strong>从零开始学算法</strong><br><a href="https://github.com/daqi/re0-algorithm/issues">https://github.com/daqi/re0-algorithm/issues</a><br>欢迎 start &amp; watch</p>
+</blockquote>
+
+  </div>
+</div>
+</body>
+</html>
