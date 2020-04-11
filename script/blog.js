@@ -35,6 +35,7 @@ class Blog {
     await ensureDir(output);
     console.log("emptyDir", output);
     await emptyDir(output);
+    await this.style();
     await this.renderMdToHtml();
     await this.injectHtml();
     console.log("bind domain", domain);
