@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>06. 重建二叉树 | Daqi's blog</title>
+<Link rel="stylesheet" href="/css/md.css" />
+<Link rel="stylesheet" href="/css/hl.css" />
+<style>
+#root { padding: 20px; } 
+</style>
+</head>
+<body>
+<div id="root">
+  <div class="markdown-body">
+  <h1 id="06-重建二叉树">06. 重建二叉树</h1>
+<h2 id="来源">来源</h2>
+<p><a href="https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/">https://leetcode-cn.com/problems/zhong-jian-er-cha-shu-lcof/</a></p>
+<h2 id="题目">题目</h2>
+<p>输入某二叉树的前序遍历和中序遍历的结果，请重建该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。</p>
+<h3 id="示例">示例:</h3>
+<p>例如，给出</p>
+<pre><code>前序遍历 preorder = [3,9,20,15,7]
+中序遍历 inorder = [9,3,15,20,7]</code></pre><p>返回如下的二叉树：</p>
+<pre><code>    3
+   / \
+  9  20
+    /  \
+   15   7</code></pre><h3 id="限制：">限制：</h3>
+<p>0 &lt;= 节点个数 &lt;= 5000</p>
+<h2 id="思路">思路</h2>
+<p>前序遍历第一个元素 3 就是根节点，在中序遍历里根节点左侧的是左子树节点，右侧的是右子树节点，在前序遍历里 9 就是左子树，20、15、7 是右子树，同理可以推出 20 为右子树的根节点，15 在左侧，7 在右侧。</p>
+<h2 id="解题">解题</h2>
+<pre><code class="language-js"><span class="hljs-comment">/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */</span>
+<span class="hljs-comment">/**
+ * <span class="hljs-doctag">@param <span class="hljs-type">{number[]}</span> <span class="hljs-variable">preorder</span></span>
+ * <span class="hljs-doctag">@param <span class="hljs-type">{number[]}</span> <span class="hljs-variable">inorder</span></span>
+ * <span class="hljs-doctag">@return <span class="hljs-type">{TreeNode}</span></span>
+ */</span>
+<span class="hljs-keyword">var</span> buildTree = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">preorder, inorder</span>) </span>{
+  <span class="hljs-keyword">if</span> (preorder.length === <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+
+  <span class="hljs-keyword">const</span> root = preorder[<span class="hljs-number">0</span>];
+  <span class="hljs-keyword">const</span> rootIndex = inorder.indexOf(root); <span class="hljs-comment">// 1</span>
+  <span class="hljs-keyword">const</span> inorderLeft = inorder.slice(<span class="hljs-number">0</span>, rootIndex); <span class="hljs-comment">// 左子树中序</span>
+  <span class="hljs-keyword">const</span> inorderRight = inorder.slice(rootIndex + <span class="hljs-number">1</span>); <span class="hljs-comment">// 右子树中序</span>
+  <span class="hljs-keyword">const</span> preorderLeft = preorder.slice(<span class="hljs-number">1</span>, <span class="hljs-number">1</span> + rootIndex); <span class="hljs-comment">// 左子树前序</span>
+  <span class="hljs-keyword">const</span> preorderRight = preorder.slice(<span class="hljs-number">1</span> + rootIndex); <span class="hljs-comment">// 右子树前序</span>
+  <span class="hljs-keyword">const</span> rootNode = <span class="hljs-keyword">new</span> TreeNode(root);
+  rootNode.left = buildTree(preorderLeft, inorderLeft);
+  rootNode.right = buildTree(preorderRight, inorderRight);
+
+  <span class="hljs-keyword">return</span> rootNode;
+};</code></pre>
+<blockquote>
+<p><strong>从零开始学算法</strong><br><a href="https://github.com/daqi/re0-algorithm/issues">https://github.com/daqi/re0-algorithm/issues</a><br>欢迎 start &amp; watch</p>
+</blockquote>
+
+  </div>
+</div>
+</body>
+</html>

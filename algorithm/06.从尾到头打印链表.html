@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>06. 从尾到头打印链表 | Daqi's blog</title>
+<Link rel="stylesheet" href="/css/md.css" />
+<Link rel="stylesheet" href="/css/hl.css" />
+<style>
+#root { padding: 20px; } 
+</style>
+</head>
+<body>
+<div id="root">
+  <div class="markdown-body">
+  <h1 id="06-从尾到头打印链表">06. 从尾到头打印链表</h1>
+<h2 id="来源">来源</h2>
+<p><a href="https://leetcode-cn.com/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/">https://leetcode-cn.com/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/</a></p>
+<h2 id="题目">题目</h2>
+<p>输入一个链表的头节点，从尾到头反过来返回每个节点的值（用数组返回）。</p>
+<h3 id="示例">示例:</h3>
+<pre><code>输入：head = [1,3,2]
+输出：[2,3,1]</code></pre><h3 id="限制：">限制：</h3>
+<p>0 &lt;= 链表长度 &lt;= 10000</p>
+<h2 id="思路">思路</h2>
+<p>使用 js 数组的 unshift 方法，遍历链表，从顶部压入，实现起来很简单。</p>
+<p>时间复杂度 O(n), 空间复杂度 O(n)。</p>
+<h2 id="解题">解题</h2>
+<pre><code class="language-js"><span class="hljs-comment">/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */</span>
+<span class="hljs-comment">/**
+ * <span class="hljs-doctag">@param <span class="hljs-type">{ListNode}</span> <span class="hljs-variable">head</span></span>
+ * <span class="hljs-doctag">@return <span class="hljs-type">{number[]}</span></span>
+ */</span>
+<span class="hljs-keyword">var</span> reversePrint = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">head</span>) </span>{
+  <span class="hljs-keyword">const</span> arr = [];
+  <span class="hljs-keyword">let</span> cur = head;
+  <span class="hljs-keyword">while</span> (cur) {
+    arr.unshift(cur.val);
+    cur = cur.next;
+  }
+  <span class="hljs-keyword">return</span> arr;
+};</code></pre>
+<h2 id="思路-2">思路 2</h2>
+<p>可以用栈解决的问题，同样也可以使用递归函数解决，只是要注意调用栈溢出问题。</p>
+<p>时间复杂度 O(n), 空间复杂度 O(n)。</p>
+<h2 id="解题-2">解题 2</h2>
+<pre><code class="language-js"><span class="hljs-comment">/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */</span>
+<span class="hljs-comment">/**
+ * <span class="hljs-doctag">@param <span class="hljs-type">{ListNode}</span> <span class="hljs-variable">head</span></span>
+ * <span class="hljs-doctag">@return <span class="hljs-type">{number[]}</span></span>
+ */</span>
+<span class="hljs-keyword">var</span> reversePrint = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">head</span>) </span>{
+  <span class="hljs-keyword">const</span> arr = [];
+  <span class="hljs-keyword">const</span> nextNode = <span class="hljs-function">(<span class="hljs-params">cur</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (cur) {
+      <span class="hljs-keyword">if</span> (cur.next) {
+        nextNode(cur.next);
+      }
+      arr.push(cur.val);
+    }
+  };
+  nextNode(head);
+  <span class="hljs-keyword">return</span> arr;
+};</code></pre>
+<blockquote>
+<p>递归经常用来实现洋葱结构，如redux、koa的中间件</p>
+</blockquote>
+<blockquote>
+<p><strong>从零开始学算法</strong><br><a href="https://github.com/daqi/re0-algorithm/issues">https://github.com/daqi/re0-algorithm/issues</a><br>欢迎 start &amp; watch</p>
+</blockquote>
+
+  </div>
+</div>
+</body>
+</html>
