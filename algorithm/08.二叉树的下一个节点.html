@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>06. 重建二叉树 | Daqi's blog</title>
+<Link rel="stylesheet" href="/css/md.css" />
+<Link rel="stylesheet" href="/css/hl.css" />
+<style>
+#root { padding: 20px; } 
+</style>
+</head>
+<body>
+<div id="root">
+  <div class="markdown-body">
+  <h1 id="06-重建二叉树">06. 重建二叉树</h1>
+<h2 id="来源">来源</h2>
+<p><a href="https://www.nowcoder.com/questionTerminal/9023a0c988684a53960365b889ceaf5e">https://www.nowcoder.com/questionTerminal/9023a0c988684a53960365b889ceaf5e</a></p>
+<h2 id="题目">题目</h2>
+<p>给定一个二叉树和其中的一个结点，请找出中序遍历顺序的下一个结点并且返回。注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。</p>
+<h3 id="示例">示例:</h3>
+<p>例如，二叉树：</p>
+<pre><code>       8
+     /   \
+    6     10
+  /  \   /  \
+ 5   7  9   11</code></pre><p>给 5 返回 6，给 6 返回 7，给 7 返回 8，给 8 返回 9</p>
+<h3 id="限制：">限制：</h3>
+<p>0 &lt;= 节点个数 &lt;= 5000</p>
+<h2 id="思路">思路</h2>
+<p>如果节点有右子节点，找出右子树最左侧的节点；<br>如果没有右子节点，如果此节点是父节点的右节点，则一直向上查找，直到：<br>当前节点不是父节点的右节点时，返回当前节点的父节点；<br>或者，当前节点没有父节点时，返回当前节点。</p>
+<h2 id="解题">解题</h2>
+<pre><code class="language-js"><span class="hljs-comment">/**
+ * function TreeLinkNode(x){
+ *     this.val = x;
+ *     this.left = null;
+ *     this.right = null;
+ *     this.next = null; // 题目中的next实际上是parent
+ * }
+ */</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">GetNext</span>(<span class="hljs-params">pNode</span>) </span>{
+  <span class="hljs-keyword">if</span> (!pNode) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+  <span class="hljs-keyword">if</span> (pNode.right) {
+    <span class="hljs-keyword">let</span> cur = pNode.right;
+    <span class="hljs-keyword">while</span> (cur.left) {
+      cur = cur.left;
+    }
+    <span class="hljs-keyword">return</span> cur;
+  }
+  <span class="hljs-keyword">if</span> (pNode.next) {
+    <span class="hljs-keyword">let</span> cur = pNode;
+    <span class="hljs-keyword">let</span> curParent = pNode.next;
+    <span class="hljs-keyword">while</span> (curParent &amp;&amp; cur === curParent.right) {
+      cur = curParent;
+      curParent = curParent.next;
+    }
+    <span class="hljs-keyword">return</span> curParent;
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+}</code></pre>
+<blockquote>
+<p><strong>从零开始学算法</strong><br><a href="https://github.com/daqi/re0-algorithm/issues">https://github.com/daqi/re0-algorithm/issues</a><br>欢迎 start &amp; watch</p>
+</blockquote>
+
+  </div>
+</div>
+</body>
+</html>
