@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>11. 旋转数组的最小数字 | Daqi's blog</title>
+<Link rel="stylesheet" href="/css/md.css" />
+<Link rel="stylesheet" href="/css/hl.css" />
+<style>
+#root { padding: 20px; } 
+</style>
+</head>
+<body>
+<div id="root">
+  <div class="markdown-body">
+  <h1 id="11-旋转数组的最小数字">11. 旋转数组的最小数字</h1>
+<h2 id="来源">来源</h2>
+<p><a href="https://leetcode-cn.com/problems/xuan-zhuan-shu-zu-de-zui-xiao-shu-zi-lcof/">https://leetcode-cn.com/problems/xuan-zhuan-shu-zu-de-zui-xiao-shu-zi-lcof/</a></p>
+<h2 id="题目">题目</h2>
+<p>把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个递增排序的数组的一个旋转，输出旋转数组的最小元素。例如，数组  <code>[3,4,5,1,2]</code> 为 <code>[1,2,3,4,5]</code> 的一个旋转，该数组的最小值为 1。</p>
+<h3 id="示例">示例:</h3>
+<h4 id="示例-1">示例 1.</h4>
+<pre><code>输入：[3,4,5,1,2]
+输出：1</code></pre><h4 id="示例-2">示例 2.</h4>
+<pre><code>输入：[2,2,2,0,1]
+输出：0</code></pre><h2 id="思路">思路</h2>
+<p>使用二分法查找，三个指针，一个指针在最左边，一个指针在最右边，一个放到中间，<br>从上面的两个示例可以找到以下规律：<br>如果中间数字比左边的大，把左边的指针移到中间的指针的位置，<br>如果中间数字比右边的小，把右边的指针移到中间的指针的位置，<br>这样逐渐逼至最小值的位置，左边的指针和右边的指针相邻差 1，则返回右边指针指向的数字。</p>
+<p>还有可能出现只包含一个数字的数组(<code>[1]</code>和<code>[1,1,1]</code>)，<br>或者三个指针指向数字相同（<code>[1,1,1,0,1]</code>和<code>[1,0,1,1,1]</code>），<br>无法判断最小数字在左边还是在右边，只能通过循环来判断。</p>
+<h2 id="解题">解题</h2>
+<pre><code class="language-js"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@param <span class="hljs-type">{number[]}</span> <span class="hljs-variable">numbers</span></span>
+ * <span class="hljs-doctag">@return <span class="hljs-type">{number}</span></span>
+ */</span>
+<span class="hljs-keyword">var</span> minArray = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">numbers</span>) </span>{
+  <span class="hljs-keyword">let</span> start = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">let</span> end = numbers.length - <span class="hljs-number">1</span>;
+  <span class="hljs-comment">// [3,4,5,1,2]</span>
+  <span class="hljs-comment">// [3,4,0,1,2]</span>
+  <span class="hljs-keyword">let</span> midIndex = start;
+  <span class="hljs-keyword">while</span> (numbers[start] &gt;= numbers[end]) {
+    <span class="hljs-keyword">if</span> (end - start === <span class="hljs-number">1</span>) {
+      midIndex = end;
+      <span class="hljs-keyword">break</span>;
+    }
+    midIndex = (end + start) &gt;&gt; <span class="hljs-number">1</span>; <span class="hljs-comment">// 之前使用过</span>
+    <span class="hljs-comment">// 如果三个指针指向的三个数字相等，只能用顺序查找</span>
+    <span class="hljs-keyword">if</span> (
+      numbers[start] === numbers[end] &amp;&amp;
+      numbers[start] === numbers[midIndex]
+    ) {
+      <span class="hljs-keyword">let</span> res = numbers[start];
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = start + <span class="hljs-number">1</span>; i &lt; end; i++) {
+        <span class="hljs-keyword">if</span> (numbers[i] &lt; res) res = numbers[i];
+      }
+      <span class="hljs-keyword">return</span> res;
+    }
+    <span class="hljs-comment">// 正常情况</span>
+    <span class="hljs-keyword">if</span> (numbers[midIndex] &gt;= numbers[start]) {
+      start = midIndex;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (numbers[midIndex] &lt;= numbers[end]) {
+      end = midIndex;
+    }
+  }
+  <span class="hljs-keyword">return</span> numbers[midIndex];
+};</code></pre>
+<blockquote>
+<p><strong>从零开始学算法</strong><br><a href="https://github.com/daqi/re0-algorithm/issues">https://github.com/daqi/re0-algorithm/issues</a><br>欢迎 start &amp; watch</p>
+</blockquote>
+
+  </div>
+</div>
+</body>
+</html>
