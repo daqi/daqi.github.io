@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>12. 矩阵中的路径 | Daqi's blog</title>
+<Link rel="stylesheet" href="/css/md.css" />
+<Link rel="stylesheet" href="/css/hl.css" />
+<style>
+#root { padding: 20px; } 
+</style>
+</head>
+<body>
+<div id="root">
+  <div class="markdown-body">
+  <h1 id="12-矩阵中的路径">12. 矩阵中的路径</h1>
+<h2 id="来源">来源</h2>
+<p><a href="https://leetcode-cn.com/problems/ju-zhen-zhong-de-lu-jing-lcof/">https://leetcode-cn.com/problems/ju-zhen-zhong-de-lu-jing-lcof/</a></p>
+<h2 id="题目">题目</h2>
+<p>请设计一个函数，用来判断在一个矩阵中是否存在一条包含某字符串所有字符的路径。路径可以从矩阵中的任意一格开始，每一步可以在矩阵中向左、右、上、下移动一格。如果一条路径经过了矩阵的某一格，那么该路径不能再次进入该格子。例如，在下面的 3×4 的矩阵中包含一条字符串“bfce”的路径（路径中的字母用加粗标出）。</p>
+<p>[[&quot;a&quot;,&quot;<strong>b</strong>&quot;,&quot;c&quot;,&quot;e&quot;],<br>[&quot;s&quot;,&quot;<strong>f</strong>&quot;,&quot;<strong>c</strong>&quot;,&quot;s&quot;],<br>[&quot;a&quot;,&quot;d&quot;,&quot;<strong>e</strong>&quot;,&quot;e&quot;]]</p>
+<p>但矩阵中不包含字符串“abfb”的路径，因为字符串的第一个字符 b 占据了矩阵中的第一行第二个格子之后，路径不能再次进入这个格子。</p>
+<h3 id="示例">示例:</h3>
+<h4 id="示例-1">示例 1.</h4>
+<pre><code>输入：board = [[&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;E&quot;],[&quot;S&quot;,&quot;F&quot;,&quot;C&quot;,&quot;S&quot;],[&quot;A&quot;,&quot;D&quot;,&quot;E&quot;,&quot;E&quot;]], word = &quot;ABCCED&quot;
+输出：true</code></pre><h4 id="示例-2">示例 2.</h4>
+<pre><code>输入：board = [[&quot;a&quot;,&quot;b&quot;],[&quot;c&quot;,&quot;d&quot;]], word = &quot;abcd&quot;
+输出：false</code></pre><h3 id="提示：">提示：</h3>
+<ul>
+<li>1 &lt;= board.length &lt;= 200</li>
+<li>1 &lt;= board[i].length &lt;= 200</li>
+</ul>
+<h2 id="思路">思路</h2>
+<p><strong>图</strong>，<strong>深度优先</strong>，<strong>回溯法</strong></p>
+<h2 id="解题">解题</h2>
+<pre><code class="language-js"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@param <span class="hljs-type">{character[][]}</span> <span class="hljs-variable">board</span></span>
+ * <span class="hljs-doctag">@param <span class="hljs-type">{string}</span> <span class="hljs-variable">word</span></span>
+ * <span class="hljs-doctag">@return <span class="hljs-type">{boolean}</span></span>
+ */</span>
+<span class="hljs-keyword">var</span> exist = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">board, word</span>) </span>{
+  <span class="hljs-keyword">const</span> rows = board.length;
+  <span class="hljs-keyword">const</span> cols = board[<span class="hljs-number">0</span>].length;
+  <span class="hljs-keyword">const</span> visited = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>(rows).fill(<span class="hljs-number">0</span>).map(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>(cols).fill(<span class="hljs-number">0</span>));
+  <span class="hljs-comment">// word 指针</span>
+  <span class="hljs-keyword">let</span> pathIndex = <span class="hljs-number">0</span>;
+  <span class="hljs-comment">// 递归</span>
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">existCore</span>(<span class="hljs-params">i, j</span>) </span>{
+    <span class="hljs-comment">// word 已找到</span>
+    <span class="hljs-keyword">if</span> (pathIndex === word.length) {
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+    <span class="hljs-keyword">let</span> has = <span class="hljs-literal">false</span>;
+    <span class="hljs-comment">// 条件</span>
+    <span class="hljs-keyword">if</span> (
+      i &gt;= <span class="hljs-number">0</span> &amp;&amp;
+      i &lt; rows &amp;&amp;
+      j &gt;= <span class="hljs-number">0</span> &amp;&amp;
+      j &lt; cols &amp;&amp;
+      board[i][j] === word[pathIndex] &amp;&amp;
+      !visited[i][j]
+    ) {
+      pathIndex++;
+      <span class="hljs-comment">// 标记</span>
+      visited[i][j] = <span class="hljs-number">1</span>;
+      <span class="hljs-comment">// 上下左右查找下一层</span>
+      has =
+        existCore(i - <span class="hljs-number">1</span>, j) ||
+        existCore(i, j - <span class="hljs-number">1</span>) ||
+        existCore(i, j + <span class="hljs-number">1</span>) ||
+        existCore(i + <span class="hljs-number">1</span>, j);
+      <span class="hljs-comment">// 回溯</span>
+      <span class="hljs-keyword">if</span> (!has) {
+        pathIndex--;
+        visited[i][j] = <span class="hljs-number">0</span>;
+      }
+    }
+    <span class="hljs-keyword">return</span> has;
+  }
+  <span class="hljs-comment">// 遍历</span>
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; rows; i++) {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; cols; j++) {
+      <span class="hljs-keyword">if</span> (existCore(i, j)) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+};</code></pre>
+<h2 id="解题-2">解题 2</h2>
+<p>用原数组进行标记，空间复杂度小</p>
+<pre><code class="language-js"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@param <span class="hljs-type">{character[][]}</span> <span class="hljs-variable">board</span></span>
+ * <span class="hljs-doctag">@param <span class="hljs-type">{string}</span> <span class="hljs-variable">word</span></span>
+ * <span class="hljs-doctag">@return <span class="hljs-type">{boolean}</span></span>
+ */</span>
+<span class="hljs-keyword">var</span> exist = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">board, word</span>) </span>{
+  <span class="hljs-keyword">const</span> rows = board.length;
+  <span class="hljs-keyword">const</span> cols = board[<span class="hljs-number">0</span>].length;
+  <span class="hljs-keyword">let</span> pathIndex = <span class="hljs-number">0</span>;
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">existCore</span>(<span class="hljs-params">i, j</span>) </span>{
+    <span class="hljs-keyword">if</span> (pathIndex === word.length) {
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+    <span class="hljs-keyword">let</span> has = <span class="hljs-literal">false</span>;
+    <span class="hljs-keyword">if</span> (
+      i &gt;= <span class="hljs-number">0</span> &amp;&amp;
+      i &lt; rows &amp;&amp;
+      j &gt;= <span class="hljs-number">0</span> &amp;&amp;
+      j &lt; cols &amp;&amp;
+      board[i][j] === word[pathIndex]
+    ) {
+      pathIndex++;
+      <span class="hljs-keyword">let</span> tmp = board[i][j];
+      board[i][j] = <span class="hljs-string">"-"</span>;
+      has =
+        existCore(i - <span class="hljs-number">1</span>, j) ||
+        existCore(i, j - <span class="hljs-number">1</span>) ||
+        existCore(i, j + <span class="hljs-number">1</span>) ||
+        existCore(i + <span class="hljs-number">1</span>, j);
+      <span class="hljs-keyword">if</span> (!has) {
+        pathIndex--;
+        board[i][j] = tmp;
+      }
+    }
+    <span class="hljs-keyword">return</span> has;
+  }
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; rows; i++) {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>; j &lt; cols; j++) {
+      <span class="hljs-keyword">if</span> (existCore(i, j)) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+};</code></pre>
+<blockquote>
+<p><strong>从零开始学算法</strong><br><a href="https://github.com/daqi/re0-algorithm/issues">https://github.com/daqi/re0-algorithm/issues</a><br>欢迎 start &amp; watch</p>
+</blockquote>
+
+  </div>
+</div>
+</body>
+</html>
