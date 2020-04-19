@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>13. 机器人的运动范围 | Daqi's blog</title>
+<Link rel="stylesheet" href="/css/md.css" />
+<Link rel="stylesheet" href="/css/hl.css" />
+<style>
+#root { padding: 20px; } 
+</style>
+</head>
+<body>
+<div id="root">
+  <div class="markdown-body">
+  <h1 id="13-机器人的运动范围">13. 机器人的运动范围</h1>
+<h2 id="来源">来源</h2>
+<p><a href="https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/">https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/</a></p>
+<h2 id="题目">题目</h2>
+<p>地上有一个 m 行 n 列的方格，从坐标 <code>[0,0]</code> 到坐标 <code>[m-1,n-1]</code> 。一个机器人从坐标 <code>[0, 0]</code> 的格子开始移动，它每次可以向左、右、上、下移动一格（不能移动到方格外），也不能进入行坐标和列坐标的数位之和大于 k 的格子。例如，当 k 为 18 时，机器人能够进入方格 [35, 37] ，因为 3+5+3+7=18。但它不能进入方格 [35, 38]，因为 3+5+3+8=19。请问该机器人能够到达多少个格子？</p>
+<h3 id="示例">示例:</h3>
+<h4 id="示例-1">示例 1.</h4>
+<pre><code>输入：m = 2, n = 3, k = 1
+输出：3</code></pre><h4 id="示例-2">示例 2.</h4>
+<pre><code>输入：m = 3, n = 1, k = 0
+输出：1</code></pre><h3 id="提示：">提示：</h3>
+<ul>
+<li>1 &lt;= n,m &lt;= 100</li>
+<li>0 &lt;= k &lt;= 20</li>
+</ul>
+<h2 id="思路">思路</h2>
+<p><strong>图</strong>，<strong>深度优先</strong>，<strong>回溯法</strong><br>跟上一题很相似。</p>
+<h2 id="解题">解题</h2>
+<pre><code class="language-js"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@param <span class="hljs-type">{number}</span> <span class="hljs-variable">m</span></span>
+ * <span class="hljs-doctag">@param <span class="hljs-type">{number}</span> <span class="hljs-variable">n</span></span>
+ * <span class="hljs-doctag">@param <span class="hljs-type">{number}</span> <span class="hljs-variable">k</span></span>
+ * <span class="hljs-doctag">@return <span class="hljs-type">{number}</span></span>
+ */</span>
+<span class="hljs-keyword">var</span> movingCount = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">m, n, k</span>) </span>{
+  <span class="hljs-keyword">const</span> visited = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>(n).fill(<span class="hljs-number">0</span>).map(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>(m).fill(<span class="hljs-number">0</span>));
+  <span class="hljs-keyword">let</span> count = <span class="hljs-number">0</span>;
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getDigitSum</span>(<span class="hljs-params">number</span>) </span>{
+    <span class="hljs-keyword">let</span> sum = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">while</span> (number &gt; <span class="hljs-number">0</span>) {
+      sum += number % <span class="hljs-number">10</span>;
+      number = (number / <span class="hljs-number">10</span>) &gt;&gt; <span class="hljs-number">0</span>; <span class="hljs-comment">// 取整</span>
+    }
+    <span class="hljs-keyword">return</span> sum;
+  }
+  <span class="hljs-comment">// 递归</span>
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">movingCountCore</span>(<span class="hljs-params">i, j</span>) </span>{
+    <span class="hljs-keyword">if</span> (
+      i &gt;= <span class="hljs-number">0</span> &amp;&amp;
+      i &lt; n &amp;&amp;
+      j &gt;= <span class="hljs-number">0</span> &amp;&amp;
+      j &lt; m &amp;&amp;
+      getDigitSum(i) + getDigitSum(j) &lt;= k &amp;&amp;
+      !visited[i][j]
+    ) {
+      <span class="hljs-comment">// 标记</span>
+      visited[i][j] = <span class="hljs-number">1</span>;
+      count++;
+      <span class="hljs-comment">// 上下左右查找下一层</span>
+      movingCountCore(i - <span class="hljs-number">1</span>, j);
+      movingCountCore(i, j - <span class="hljs-number">1</span>);
+      movingCountCore(i, j + <span class="hljs-number">1</span>);
+      movingCountCore(i + <span class="hljs-number">1</span>, j);
+    }
+  }
+  movingCountCore(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+  <span class="hljs-keyword">return</span> count;
+};</code></pre>
+<blockquote>
+<p><strong>从零开始学算法</strong><br><a href="https://github.com/daqi/re0-algorithm/issues">https://github.com/daqi/re0-algorithm/issues</a><br>欢迎 start &amp; watch</p>
+</blockquote>
+
+  </div>
+</div>
+</body>
+</html>

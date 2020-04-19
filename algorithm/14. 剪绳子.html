@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>14. 剪绳子 | Daqi's blog</title>
+<Link rel="stylesheet" href="/css/md.css" />
+<Link rel="stylesheet" href="/css/hl.css" />
+<style>
+#root { padding: 20px; } 
+</style>
+</head>
+<body>
+<div id="root">
+  <div class="markdown-body">
+  <h1 id="14-剪绳子">14. 剪绳子</h1>
+<h2 id="来源">来源</h2>
+<p><a href="https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/">https://leetcode-cn.com/problems/ji-qi-ren-de-yun-dong-fan-wei-lcof/</a></p>
+<h2 id="题目">题目</h2>
+<p>给你一根长度为 <code>n</code> 的绳子，请把绳子剪成整数长度的 <code>m</code> 段（m、n 都是整数，n&gt;1 并且 m&gt;1），每段绳子的长度记为 <code>k[0],k[1]...k[m]</code> 。请问 <code>k[0]*k[1]*...*k[m]</code> 可能的最大乘积是多少？例如，当绳子的长度是 8 时，我们把它剪成长度分别为 2、3、3 的三段，此时得到的最大乘积是 18。</p>
+<h3 id="示例">示例:</h3>
+<h4 id="示例-1">示例 1.</h4>
+<pre><code>输入: 2
+输出: 1
+解释: 2 = 1 + 1, 1 × 1 = 1</code></pre><h4 id="示例-2">示例 2.</h4>
+<pre><code>输入: 10
+输出: 36
+解释: 10 = 3 + 3 + 4, 3 × 3 × 4 = 36</code></pre><h3 id="提示：">提示：</h3>
+<ul>
+<li>2 &lt;= n &lt;= 58</li>
+</ul>
+<h2 id="思路-1">思路 1</h2>
+<p><strong>动态规划</strong></p>
+<p>n 小于 4 时，由于必须要切一刀，所以 F(2) = 1,F(3) = 2。结果反而没有不切大。<br>n 大于等于 4 时，2、3 就不需要再切 F(2) = 2，F(3) = 3。<br>设在 i 处切一刀，得到公式：<br>F(n) = Max (F(1) × F(n-1) ... F(n/2) × F(n/2))。<br>用一个数组 cache 存储每个 n 对应的 F(n), 可以减少重复的计算。</p>
+<h2 id="解题">解题</h2>
+<pre><code class="language-js"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@param <span class="hljs-type">{number}</span> <span class="hljs-variable">n</span></span>
+ * <span class="hljs-doctag">@return <span class="hljs-type">{number}</span></span>
+ */</span>
+<span class="hljs-keyword">var</span> cuttingRope = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">n</span>) </span>{
+  <span class="hljs-keyword">if</span> (n === <span class="hljs-number">2</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">if</span> (n === <span class="hljs-number">3</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">2</span>;
+  <span class="hljs-keyword">const</span> cache = [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">4</span>; i &lt;= n; i++) {
+    <span class="hljs-keyword">let</span> max = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> j = <span class="hljs-number">1</span>; j &lt;= i / <span class="hljs-number">2</span>; j++) {
+      <span class="hljs-keyword">let</span> res = cache[j] * cache[i - j];
+      <span class="hljs-keyword">if</span> (max &lt; res) max = res;
+    }
+    cache[i] = max;
+  }
+  <span class="hljs-keyword">return</span> cache[n];
+};</code></pre>
+<h2 id="思路-2">思路 2</h2>
+<p><strong>贪婪算法</strong></p>
+<p>找规律</p>
+<table>
+<thead>
+<tr>
+<th>n</th>
+<th>最优方案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2</td>
+<td>1×1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>1×2</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2×2</td>
+</tr>
+<tr>
+<td>5</td>
+<td>2×3</td>
+</tr>
+<tr>
+<td>6</td>
+<td>3×3</td>
+</tr>
+<tr>
+<td>7</td>
+<td>3×4</td>
+</tr>
+<tr>
+<td>8</td>
+<td>3×3×2</td>
+</tr>
+<tr>
+<td>9</td>
+<td>3×3×3</td>
+</tr>
+<tr>
+<td>10</td>
+<td>3×3×4</td>
+</tr>
+</tbody></table>
+<p>除以 3 取余：<br>余 0，3 ^ n;<br>余 1，3 ^ (n-1) × 4;<br>余 2，3 ^ n × 2。</p>
+<h2 id="解题-1">解题</h2>
+<pre><code class="language-js"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@param <span class="hljs-type">{number}</span> <span class="hljs-variable">n</span></span>
+ * <span class="hljs-doctag">@return <span class="hljs-type">{number}</span></span>
+ */</span>
+<span class="hljs-keyword">var</span> cuttingRope = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">n</span>) </span>{
+  <span class="hljs-keyword">if</span> (n === <span class="hljs-number">2</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">if</span> (n === <span class="hljs-number">3</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">2</span>;
+  <span class="hljs-keyword">const</span> m = (n / <span class="hljs-number">3</span>) &gt;&gt; <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">if</span> (n % <span class="hljs-number">3</span> === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">3</span> ** (m - <span class="hljs-number">1</span>) * <span class="hljs-number">4</span>;
+  <span class="hljs-keyword">if</span> (n % <span class="hljs-number">3</span> === <span class="hljs-number">2</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">3</span> ** m * <span class="hljs-number">2</span>;
+  <span class="hljs-keyword">return</span> <span class="hljs-number">3</span> ** m;
+};</code></pre>
+<h3 id="题目-2">题目 2</h3>
+<p>在原题目上加上条件，答案需要取模 1e9+7（1000000007），如计算初始结果为：1000000008，请返回 1。</p>
+<h2 id="解题-2">解题</h2>
+<pre><code class="language-js"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@param <span class="hljs-type">{number}</span> <span class="hljs-variable">n</span></span>
+ * <span class="hljs-doctag">@return <span class="hljs-type">{number}</span></span>
+ */</span>
+<span class="hljs-keyword">var</span> cuttingRope = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">n</span>) </span>{
+  <span class="hljs-keyword">if</span> (n === <span class="hljs-number">2</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">if</span> (n === <span class="hljs-number">3</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">2</span>;
+  <span class="hljs-keyword">let</span> m = (n / <span class="hljs-number">3</span>) &gt;&gt; <span class="hljs-number">0</span>;
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">pow3</span>(<span class="hljs-params">n</span>) </span>{
+    <span class="hljs-keyword">let</span> x = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">while</span> (n &gt; <span class="hljs-number">0</span>) {
+      x = (x * <span class="hljs-number">3</span>) % <span class="hljs-number">1000000007</span>;
+      n--;
+    }
+    <span class="hljs-keyword">return</span> x;
+  }
+  <span class="hljs-keyword">if</span> (n % <span class="hljs-number">3</span> === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> (pow3(m - <span class="hljs-number">1</span>) * <span class="hljs-number">4</span>) % <span class="hljs-number">1000000007</span>;
+  <span class="hljs-keyword">if</span> (n % <span class="hljs-number">3</span> === <span class="hljs-number">2</span>) <span class="hljs-keyword">return</span> (pow3(m) * <span class="hljs-number">2</span>) % <span class="hljs-number">1000000007</span>;
+  <span class="hljs-keyword">return</span> pow3(m);
+};</code></pre>
+<blockquote>
+<p><strong>从零开始学算法</strong><br><a href="https://github.com/daqi/re0-algorithm/issues">https://github.com/daqi/re0-algorithm/issues</a><br>欢迎 start &amp; watch</p>
+</blockquote>
+
+  </div>
+</div>
+</body>
+</html>
