@@ -31,7 +31,7 @@
 </ul>
 <h2 id="思路-1">思路 1</h2>
 <p><strong>动态规划</strong></p>
-<p>n 小于 4 时，由于必须要切一刀，所以 F(2) = 1,F(3) = 2。结果反而没有不切大。<br>n 大于等于 4 时，2、3 就不需要再切 F(2) = 2，F(3) = 3。<br>设在 i 处切一刀，得到公式：<br>F(n) = Max (F(1) × F(n-1) ... F(n/2) × F(n/2))。<br>用一个数组 cache 存储每个 n 对应的 F(n), 可以减少重复的计算。</p>
+<p>n 小于 4 时，由于必须要切一刀，所以 F(2) = 1,F(3) = 2。结果反而没有不切大。<br>n 大于等于 4 时，2、3 就不需要再切 F(2) = 2，F(3) = 3。<br>设在 i 处切一刀，F(n) = F(i) × F(n-i)，得到公式：<br>F(n) = Max (F(1) × F(n-1) ... F(n/2) × F(n/2))。<br>用一个数组 cache 存储每个 n 对应的 F(n), 可以减少重复的计算。</p>
 <h2 id="解题">解题</h2>
 <pre><code class="language-js"><span class="hljs-comment">/**
  * <span class="hljs-doctag">@param <span class="hljs-type">{number}</span> <span class="hljs-variable">n</span></span>
