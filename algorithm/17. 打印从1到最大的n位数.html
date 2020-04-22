@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>17. 打印从 1 到最大的 n 位数 | Daqi's blog</title>
+<Link rel="stylesheet" href="/css/md.css" />
+<Link rel="stylesheet" href="/css/hl.css" />
+<style>
+#root { padding: 20px; } 
+</style>
+</head>
+<body>
+<div id="root">
+  <div class="markdown-body">
+  <h1 id="17-打印从-1-到最大的-n-位数">17. 打印从 1 到最大的 n 位数</h1>
+<h2 id="来源">来源</h2>
+<p><a href="https://leetcode-cn.com/problems/da-yin-cong-1dao-zui-da-de-nwei-shu-lcof/">https://leetcode-cn.com/problems/da-yin-cong-1dao-zui-da-de-nwei-shu-lcof/</a></p>
+<h2 id="题目">题目</h2>
+<p>输入数字 n，按顺序打印出从 1 到最大的 n 位十进制数。比如输入 3，则打印出 1、2、3 一直到最大的 3 位数 999。</p>
+<h3 id="示例">示例:</h3>
+<pre><code>输入: n = 1
+输出: [1,2,3,4,5,6,7,8,9]</code></pre><h3 id="说明">说明</h3>
+<ul>
+<li>用返回一个整数列表来代替打印</li>
+<li>n 为正整数</li>
+</ul>
+<h2 id="思路">思路</h2>
+<p>用上一题的方法求出10^n，然后循环</p>
+<h2 id="解题">解题</h2>
+<pre><code class="language-js"><span class="hljs-comment">/**
+ * <span class="hljs-doctag">@param <span class="hljs-type">{number}</span> <span class="hljs-variable">n</span></span>
+ * <span class="hljs-doctag">@return <span class="hljs-type">{number[]}</span></span>
+ */</span>
+<span class="hljs-keyword">var</span> printNumbers = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">n</span>) </span>{
+  <span class="hljs-keyword">let</span> max = <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">let</span> x = <span class="hljs-number">10</span>;
+  <span class="hljs-keyword">while</span> (n) {
+    <span class="hljs-keyword">if</span> (n &amp; <span class="hljs-number">1</span>) {
+      max *= x;
+    }
+    x = x * x;
+    n = n &gt;&gt; <span class="hljs-number">1</span>;
+  }
+
+  <span class="hljs-keyword">const</span> res = [];
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>; i &lt; max; ++i) {
+    res.push(i);
+  }
+  <span class="hljs-keyword">return</span> res;
+};</code></pre>
+<blockquote>
+<p><strong>从零开始学算法</strong><br><a href="https://github.com/daqi/re0-algorithm/issues">https://github.com/daqi/re0-algorithm/issues</a><br>欢迎 start &amp; watch</p>
+</blockquote>
+
+  </div>
+</div>
+</body>
+</html>
