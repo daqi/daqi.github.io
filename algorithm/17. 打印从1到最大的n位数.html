@@ -26,7 +26,7 @@
 <li>n 为正整数</li>
 </ul>
 <h2 id="思路">思路</h2>
-<p>用上一题的方法求出10^n，然后循环</p>
+<p>用上一题的方法求出 10^n，然后循环</p>
 <h2 id="解题">解题</h2>
 <pre><code class="language-js"><span class="hljs-comment">/**
  * <span class="hljs-doctag">@param <span class="hljs-type">{number}</span> <span class="hljs-variable">n</span></span>
@@ -49,6 +49,8 @@
   }
   <span class="hljs-keyword">return</span> res;
 };</code></pre>
+<h2 id="原题">原题</h2>
+<p>原题是要考虑到大数，可以用字符串存储数字，答案是 n 个 0-9 的数字全排列，再加上忽略开头的 0 的打印逻辑。</p>
 <blockquote>
 <p><strong>从零开始学算法</strong><br><a href="https://github.com/daqi/re0-algorithm/issues">https://github.com/daqi/re0-algorithm/issues</a><br>欢迎 start &amp; watch</p>
 </blockquote>
