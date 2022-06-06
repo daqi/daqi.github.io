@@ -81,22 +81,21 @@ export ELECTRON_MIRROR=https://npmmirror.com/mirrors/electron/
 export ELECTRON_BUILDER_BINARIES_MIRROR=https://npmmirror.com/mirrors/electron-builder-binaries/
 ```
 
-3. 麒麟 OS 安装后，创建快捷方式，图标不更新
+3. arm64 麒麟 OS 安装后，创建快捷方式，图标不显示
 
 ```
-# afterInstall.sh
-update-desktop-database
+"desktop": { Icon: "/opt/有道云笔记/resources/build/icon.svg" }
 ```
 
 4. Running as root without --no-sandbox is not supported [issue](https://stackoverflow.com/a/60471688)
 
 ```
-"executableArgs": ["--no-sandbox"]
+"executableArgs": [ "--no-sandbox" ]
 ```
-<!-- 
----
 
-# 总结
+<!-- --- -->
+
+<!-- # 总结
 
 Electron 打包过程中还遇到过很多很多的问题，通过不断去 Google、去 Github 上搜 issue，看源码，冷静分析和耐心尝试之后，一定可以找到那个最适合的答案。 -->
 
