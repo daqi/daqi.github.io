@@ -78,7 +78,13 @@ node scripts/rebuild-uos.js
 
 # 其他问题
 
-- npm install 权限问题
+- 运行报错：Running as root without --no-sandbox is not supported [issue](https://stackoverflow.com/a/60471688)
+
+```
+"executableArgs": [ "--no-sandbox" ]
+```
+
+- Gitlab-ci 里 npm install 权限问题
 
 ```
 npm set unsafe-perm true
@@ -95,12 +101,6 @@ export ELECTRON_BUILDER_BINARIES_MIRROR=https://npmmirror.com/mirrors/electron-b
 
 ```
 "desktop": { Icon: "/opt/有道云笔记/resources/build/icon.svg" }
-```
-
-- Running as root without --no-sandbox is not supported [issue](https://stackoverflow.com/a/60471688)
-
-```
-"executableArgs": [ "--no-sandbox" ]
 ```
 
 <!-- --- -->
