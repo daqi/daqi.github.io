@@ -44,7 +44,7 @@ electron-builder --linux deb
 
 1. electron-updater 不支持 deb 的自动升级；[why？](https://stackoverflow.com/a/38137655)
 2. 自主开发脚本生成 deb 包的 latest-linux.yml；[e.g.](https://g.hz.netease.com/cowork/web/ynote/ynote-desktop/-/blob/develop/scripts/updateinfo-deb.js)
-3. 模仿 electron-updater 的 [API](https://github.com/electron-userland/electron-builder/blob/master/packages/electron-updater/src/AppUpdater.ts#L33) 开发一个 linux-updater，整合到自动升级流程；只做了检查更新，引导用户到官网下载页自行下载并重装。
+3. 模仿 electron-updater 的 [API](https://github.com/electron-userland/electron-builder/blob/master/packages/electron-updater/src/AppUpdater.ts#L33) 开发一个 linux-updater ([e.g.](https://g.hz.netease.com/cowork/web/ynote/ynote-desktop/-/blob/develop/src/shared/linux-updater.ts))，整合到自动升级流程；只做了检查更新，引导用户到官网下载页自行下载并重装。
 
 ---
 
@@ -61,7 +61,11 @@ sudo gem install fpm
 USE_SYSTEM_FPM=true electron-builder --arm64 --linux deb
 ```
 
-- UOS 打包 [how?](https://www.vvave.net/archives/how-to-build-a-debian-series-distros-installation-package.html)
+---
+
+# UOS 打包
+
+[how?](https://www.vvave.net/archives/how-to-build-a-debian-series-distros-installation-package.html)
 
 ```
 sudo apt install dh-make fakeroot build-essential

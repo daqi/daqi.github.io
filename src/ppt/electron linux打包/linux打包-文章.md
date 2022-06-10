@@ -22,7 +22,7 @@ electron-builder --linux deb
 
 ![](./autoupload-why.png)
 
-linux 版的 VSCode、Chrome 等应用也是引导用户去官网下载并重装。
+linux 版的 VSCode、Chrome 等应用也是检查到更新后，引导用户去官网下载并重装。所以我们目标是实现同样的效果。
 
 2. 自主开发脚本生成 deb 包的 latest-linux.yml；[e.g.](https://g.hz.netease.com/cowork/web/ynote/ynote-desktop/-/blob/develop/scripts/updateinfo-deb.js)
 
@@ -30,20 +30,10 @@ linux 版的 VSCode、Chrome 等应用也是引导用户去官网下载并重装
 const yaml = require("js-yaml");
 const fs = require("fs-extra");
 const path = require("path");
-const globby = require("globby");
 
 const cwd = process.cwd();
 
 const dist = "releases";
-
-const getFile = async () => {
-  const files = await globby(`${dist}/有道云笔记*.deb`, {
-    onlyFiles: true,
-    deep: 1,
-  });
-  const filePath = path.join(cwd, files[0]);
-  return filePath;
-};
 
 const getVersion = async () => {
   return (await fs.readJson(path.join(cwd, "package.json"))).version;
@@ -53,16 +43,7 @@ const getReleaseNotes = async () => {
   return fs.readFile(path.join(cwd, "release-notes.md"), "utf-8");
 };
 
-const createUpdateInfo = (version, url, sha512, releaseNotes, releaseDate) => {
-  return {
-    version,
-    files: [{ url }],
-    releaseNotes,
-    releaseDate,
-  };
-};
-
-const whiteLatestYml = async (updateInfo) => {
+const writeLatestYml = async (updateInfo) => {
   const filePath = path.join(cwd, dist, "latest-linux.yml");
   await fs.ensureFile(filePath);
   return fs.writeFile(filePath, yaml.safeDump(updateInfo), "utf-8");
@@ -70,23 +51,19 @@ const whiteLatestYml = async (updateInfo) => {
 
 const main = async () => {
   const version = await getVersion();
-  const file = await getFile();
   const releaseNotes = await getReleaseNotes();
   const releaseDate = new Date().toISOString();
-  const filename = path.basename(file);
-  const updateInfo = createUpdateInfo(
+  await writeLatestYml({
     version,
-    filename,
     releaseNotes,
-    releaseDate
-  );
-  await whiteLatestYml(updateInfo);
+    releaseDate,
+  });
 };
 
 main();
 ```
 
-3. 模仿 electron-updater 的 [API](https://github.com/electron-userland/electron-builder/blob/master/packages/electron-updater/src/AppUpdater.ts#L33) 开发一个 linux-updater，整合到自动升级流程；只做了检查更新，引导用户到官网下载页自行下载并重装。
+3. 模仿 electron-updater 的 [API](https://github.com/electron-userland/electron-builder/blob/master/packages/electron-updater/src/AppUpdater.ts#L33) 开发一个 linux-updater，整合到自动升级流程；electron-updater 包含了检查更新、下载更新、安装更新等功能；我们简化了下载和重装，只保留检查更新功能即可([e.g.](https://g.hz.netease.com/cowork/web/ynote/ynote-desktop/-/blob/develop/src/shared/linux-updater.ts))。
 
 ## arm64 适配
 
@@ -112,15 +89,13 @@ sudo gem install fpm
 USE_SYSTEM_FPM=true electron-builder --arm64 --linux deb
 ```
 
-- UOS 打包 [how?](https://www.vvave.net/archives/how-to-build-a-debian-series-distros-installation-package.html)
+## UOS 打包
 
-UOS（Debian 的衍生发行版）因系统经过高度定制，因此 UOS 支持自有打包方案。
+UOS（Debian 的衍生发行版）因系统经过高度定制，因此支持自有打包方案。
 
 1. 安装依赖
 2. 结构创建
 3. 打包构建
-
-我们可以根据打包文档，编写自动化脚本，实现自动化打包。
 
 依赖安装
 
@@ -129,6 +104,8 @@ sudo apt install dh-make fakeroot build-essential
 ```
 
 结构创建
+
+我们可以根据打包[教程](https://www.vvave.net/archives/how-to-build-a-debian-series-distros-installation-package.html)，编写自动化[脚本](https://g.hz.netease.com/cowork/web/ynote/ynote-desktop/-/blob/develop/scripts/rebuild-uos.js)，自动化结构创建。
 
 ```
 com.netease.youdaonote-7.1.0
