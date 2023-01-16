@@ -1,4 +1,4 @@
 # 大齐日报
-https://daqi.io/daily
+https://daqi.fun/daily
 
 {{{inject[/daily]}}}

@@ -8,11 +8,11 @@
 
 ## 大齐日报
 
-https://daqi.io/daily
+https://daqi.fun/daily
 
 ## 从零开始学算法
 
-https://daqi.io/algorithm
+https://daqi.fun/algorithm
 
 ## 简陋的博客系统
 

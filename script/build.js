@@ -4,7 +4,7 @@ const Blog = require("./blog");
 
 new Blog({
   title: "Daqi's blog",
-  domain: "daqi.io",
+  domain: "daqi.fun",
   output: path.join(__dirname, "../dist"),
   router: [
     {
